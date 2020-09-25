@@ -11,35 +11,23 @@ import java.util.regex.Pattern;
 
 public class service {
 	
-	private static String readCSS(){		
-		BufferedReader read;
-		try {
-			read = new BufferedReader(new FileReader("template.css"));
-
-			String line;
-			String output = "";
-
-			while((line = read.readLine()) != null) {
-				line = line.replaceAll("\n", "");
-				output = output + line.replaceAll("\t", "");
-
-			}
-			read.close();
-			return output;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+	private static String readCSS() throws IOException {
+		// TODO: Read the CSS template file, and return the contents
+		// Implement the minification here as well
+		
+		BufferedReader read = new BufferedReader(new FileReader("template.css"));
+		String line;
+		String output = "";
+		
+		while((line = read.readLine()) != null) {
+			
 		}
+		return null;
 	}
 	
 	private static String substituteCSS(String css, String accentC, String mainC, String font) {
-
-		css = css.replaceAll("_MAIN_COLOUR_", "#" + mainC);
-		css = css.replaceAll("_ACCENT_COLOUR_", "#" + accentC);
-		css = css.replaceAll("_FONT_FAMILY_", "#" + font);
-		
-		return css;
+		// TODO: Take a CSS template plus three parameters in
+		// It should replace the placeholders in the templace with the passed in parameter values
 	}
 	
 	private static String verifyHex(String rawInput, String defaultValue) {
