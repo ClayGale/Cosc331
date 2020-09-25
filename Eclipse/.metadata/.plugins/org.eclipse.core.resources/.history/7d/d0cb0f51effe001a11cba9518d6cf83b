@@ -26,6 +26,7 @@ public class service {
 			read.close();
 			return output;
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -100,17 +101,18 @@ public class service {
 			String template = readCSS();
 			String css = substituteCSS(template, accentCSS, mainCSS, fontCSS);
 			String response = "HTTP/1.1 200 OK\r\n\r\n" + css;
-			
+			// Write the HTTP message out to the output stream, back to the client/user
 			userConn.getOutputStream().write(response.getBytes("UTF-8"));
 			userConn.getOutputStream().flush();
-
+			// Flush to make sure the data is sent, and then close the connection and the buffered reader
 			userConn.close();
 			br.close();
 		}
 	}
 	
 	public static String parseHeader(String variable, String rawInput) {
-		
+		// TODO: Write the basic parser needed to fetch our a parameter (variable)
+		// from the client/user rawInput, and then return it
 		String pattern = "GET /.*" + variable + "=(.*?)(?:&| HTTP)";
 		Pattern regex = Pattern.compile(pattern);
 		Matcher match = regex.matcher(rawInput);

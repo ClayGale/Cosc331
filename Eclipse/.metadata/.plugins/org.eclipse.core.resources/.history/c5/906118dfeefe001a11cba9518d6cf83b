@@ -1,5 +1,6 @@
 package lab1;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,6 +27,7 @@ public class service {
 			read.close();
 			return output;
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -71,46 +73,46 @@ public class service {
 	}
 	
 	public static void webServe(int port) throws IOException {
-
+		// TODO: You'll need most of your functions to run in the server loop here
+		// To get you started, this code will fetch input, print it to the console
+		// and then return a message to the user
 		ServerSocket server = new ServerSocket(port);
 		while(true) {
-
+			// server.accept() is blocking, so your code will stop here until a connection is made
 			Socket userConn = server.accept();
-
+			// Buffered Reader for handling the input stream from the user/client
 			BufferedReader br = new BufferedReader(new InputStreamReader(userConn.getInputStream()), 1);
 			String output = "";
 			String line;
-
+			// Read from the buffer until the buffer is empty or the connection closes
 			while ((line = br.readLine()) != null) {
 	            output = output + line;
 	            if (line.isEmpty()) {
 	                break;
 	            }
 	        }
-
+			// Print out the input from the user/client
 			System.out.println(output);
 			String mainCSS = parseHeader("main", output);
 			String accentCSS = parseHeader("accent", output);
 			String fontCSS = parseHeader("font", output);
-			
-			mainCSS = verifyHex(mainCSS, "FFFFFF");
-			accentCSS = verifyHex(accentCSS, "FFFFFF");
-			fontCSS = verifyFont(fontCSS, "monospace");
-			
-			String template = readCSS();
-			String css = substituteCSS(template, accentCSS, mainCSS, fontCSS);
-			String response = "HTTP/1.1 200 OK\r\n\r\n" + css;
-			
+			mainCSS = verifyHex(mainCSS);
+			// Writing our response message - note that the headers must end in \r\n\r\n
+			// The message itself should come after the headers, and should end in \r\n
+			String helloWorld = "Hello World, This is my response message!\r\n";
+			String response = "HTTP/1.1 200 OK\r\n\r\n" + helloWorld;
+			// Write the HTTP message out to the output stream, back to the client/user
 			userConn.getOutputStream().write(response.getBytes("UTF-8"));
 			userConn.getOutputStream().flush();
-
+			// Flush to make sure the data is sent, and then close the connection and the buffered reader
 			userConn.close();
 			br.close();
 		}
 	}
 	
 	public static String parseHeader(String variable, String rawInput) {
-		
+		// TODO: Write the basic parser needed to fetch our a parameter (variable)
+		// from the client/user rawInput, and then return it
 		String pattern = "GET /.*" + variable + "=(.*?)(?:&| HTTP)";
 		Pattern regex = Pattern.compile(pattern);
 		Matcher match = regex.matcher(rawInput);
