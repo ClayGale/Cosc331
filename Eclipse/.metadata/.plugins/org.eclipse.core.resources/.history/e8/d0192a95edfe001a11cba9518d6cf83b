@@ -64,7 +64,7 @@ public class service {
 	private static String verifyFont(String fontInput, String defaultValue) {
 
 		fontInput = fontInput.toLowerCase();
-		if (fontInput != "serif" && fontInput != "sans-serif" && fontInput != "monospace") {
+		if (fontInput != "serif" || fontInput != "sans-serif" || fontInput != "sans-serif") {
 			return defaultValue;
 		}
 		else {
@@ -93,10 +93,7 @@ public class service {
 	        }
 			// Print out the input from the user/client
 			System.out.println(output);
-			String mainCSS = parseHeader("main", output);
-			String accentCSS = parseHeader("accent", output);
-			String fontCSS = parseHeader("font", output);
-			mainCSS = verifyHex(mainCSS);
+			//String mainCSS = parseHeader("main", output);
 			// Writing our response message - note that the headers must end in \r\n\r\n
 			// The message itself should come after the headers, and should end in \r\n
 			String helloWorld = "Hello World, This is my response message!\r\n";

@@ -43,33 +43,13 @@ public class service {
 	}
 	
 	private static String verifyHex(String rawInput, String defaultValue) {
-
-		try {
-			Long.parseLong(rawInput,16);
-			if(rawInput.length() <= 6) {
-				return rawInput;
-			}
-			else {
-				return defaultValue;
-			}
-		}
-
-		catch(Exception e) {
-			e.printStackTrace();
-			return defaultValue;
-		}
+		// TODO: Verify the input value rawInput is actually a hex value with an appropriate length
 	}
-
 	
 	private static String verifyFont(String fontInput, String defaultValue) {
-
-		fontInput = fontInput.toLowerCase();
-		if (fontInput != "serif" && fontInput != "sans-serif" && fontInput != "monospace") {
-			return defaultValue;
-		}
-		else {
-			return fontInput;
-		}
+		// TODO: Implement a verification function that checks if fontInput is equal to either:
+		// "serif", "sans-serif", or "monospace", or returns a default value if not
+		// Don't forget about capitalization!
 	}
 	
 	public static void webServe(int port) throws IOException {
@@ -93,10 +73,6 @@ public class service {
 	        }
 			// Print out the input from the user/client
 			System.out.println(output);
-			String mainCSS = parseHeader("main", output);
-			String accentCSS = parseHeader("accent", output);
-			String fontCSS = parseHeader("font", output);
-			mainCSS = verifyHex(mainCSS);
 			// Writing our response message - note that the headers must end in \r\n\r\n
 			// The message itself should come after the headers, and should end in \r\n
 			String helloWorld = "Hello World, This is my response message!\r\n";
@@ -113,17 +89,6 @@ public class service {
 	public static String parseHeader(String variable, String rawInput) {
 		// TODO: Write the basic parser needed to fetch our a parameter (variable)
 		// from the client/user rawInput, and then return it
-		String pattern = "GET /.*" + variable + "=(.*?)(?:&| HTTP)";
-		Pattern regex = Pattern.compile(pattern);
-		Matcher match = regex.matcher(rawInput);
-		
-		if(match.find()) {
-			return match.group(1);
-		}
-		else {
-			return null;
-		}
-		
 	}
 	
 	public static void main(String[] args) throws IOException {
