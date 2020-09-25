@@ -1,0 +1,49 @@
+<div style="margin-left: 30%; margin-right: 30%; margin-top: 10%; text-align: center; padding: 10px; border: 1px dashed black">
+	<p id="inputText">_PLACEHOLDER_</p>
+</div>
+<div style="margin-left: 30%; margin-right: 30%; text-align: center; padding: 10px;">
+	<form id="encryptForm" onsubmit="callGetCrypt();return false;" action="">
+		<fieldset>
+			<legend>Encrypt a String:</legend>
+			<input type="text" style="width:100%; padding: 10px;" id="enkey" name="key" placeholder="My Very secure Key">
+			<br>
+			<br>
+			<input type="text" style="width:100%; padding: 10px;" id="plain" name="plaintext" placeholder="This is a secret message!">
+			<br>
+			<br>
+			<button type="submit" form="encryptForm" value="Submit">Submit</button>
+		</fieldset>
+	</form>
+</div>
+<div style="margin-left: 30%; margin-right: 30%; text-align: center; padding: 10px;">
+	<form id="decryptForm" onsubmit="callGetDecrypt();return false;" action="">
+		<fieldset>
+			<legend>Decrypt a String:</legend>
+			<input type="text" style="width:100%; padding: 10px;" id="dekey" name="key" placeholder="My Very secure Key">
+			<br>
+			<br>
+			<input type="text" style="width:100%; padding: 10px;" id="cipher" name="ciphertext" placeholder="My encrypted message text">
+			<br>
+			<br>
+			<button type="submit" form="decryptForm" value="Submit">Submit</button>
+		</fieldset>
+	</form>
+</div>
+<script>
+    function exampleXMLHTTP(callback){
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onReadyStateChange = function() {
+            if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", "http://www.google.com", true)
+        xmlHttp.send(null);
+    }
+
+    function exampleCall(){
+        exampleXMLHTTP(function(response){
+            alert(response);
+        });
+    }
+</script>
+<button onsubmit="exampleCall()">Submitsticles</button>

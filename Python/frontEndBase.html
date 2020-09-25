@@ -1,0 +1,41 @@
+<html id="container" style="height: 95%;">
+	<head>
+		<meta charset="UTF-8">
+		<link id="styleLink" rel="stylesheet" href="http://127.0.0.1/" type="text/css"/>
+	</head>
+	<body>
+		<div id="encService">
+		</div>
+		<div style="position:absolute; top:0; right:0; text-align: center;">
+			<form id="cssForm" onsubmit="fetchCSS();return false;" action="">
+				<fieldset>
+					<legend>Styling Options:</legend>
+					<label for="main">Main Colour:</label>
+					<input type="color" id="main" name="main" value="#ff0000">
+					<br>
+					<label for="font">Font:</label>
+					<select name="font" id="font">
+					  <option value="serif">Serif</option>
+					  <option value="sans-serif">Sans-Serif</option>
+					  <option value="monospace">Monospace</option>
+					</select>
+					<br>
+					<button type="submit" form="cssForm" value="Submit">Submit</button>
+				</fieldset>
+			</form>
+		</div>
+		<script>
+			function fetchCSS(){
+				var main = document.getElementById("main").value.substring(1);
+				var font = document.getElementById("font").value;
+				var container = document.getElementById("container");
+				var styleSheet = document.getElementsByTagName("link");
+				container.style.display='none';
+				styleSheet[0].href = "http://127.0.0.1/?main="+main+"&font="+font;
+				setTimeout(function(){
+					container.style.display='initial';
+				}, 2000);
+			}
+		</script>
+	</body>
+</html>
