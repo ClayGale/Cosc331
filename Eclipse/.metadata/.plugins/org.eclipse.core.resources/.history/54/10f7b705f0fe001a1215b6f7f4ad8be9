@@ -13,7 +13,7 @@ public class service {
 	private static String readCSS(){		
 		BufferedReader read;
 		try {
-			read = new BufferedReader(new FileReader("src/lab1/template.css"));
+			read = new BufferedReader(new FileReader("template.css"));
 
 			String line;
 			String output = "";
