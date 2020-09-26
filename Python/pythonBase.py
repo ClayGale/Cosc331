@@ -18,9 +18,21 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
-        if self.getPage() == '/':
-            self.wfile.write(bytes("Hello World!", "utf-8"))
+        if self.getPage() == '/example':
+            html = open("encryptionBase.html")
+            htmlString = html.read()
+            html.close()
+            self.wfile.write(bytes(htmlString.replace("_PLACEHOLDER_","No encryption has yet been performed"), "utf-8"))
 
+        if self.getPage() == "/encrypt":
+            params = self.getParams()
+            encryptedText = self.encode(params['key'], params['plainText'])
+            self.wfile.write(encryptedText)
+
+        if self.getPage() == "/decrypt":
+            params = self.getParams()
+            decryptedText = self.encode(params['key'], params['cipherText'])
+            self.wfile.write(bytes(decryptedText, "utf-8"))
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):
         output = {}

@@ -30,6 +30,56 @@
 	</form>
 </div>
 <script>
+    function getEncrypt(callback){
+        var key = document.getElementById("enKey").value;
+        ver plaintext = document.getElementById("plain").value;
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onReadyStateChange = function() {
+            if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", "http;//127.0.0.1:8080/encrypt?key=" + key + "&plaintext=" + plaintext, true)
+        xmlHttp.send(null);
+    }
+
+    function callEncrypt(callback){
+    getEncrypt(){
+    	var insertionPoint = document.getElementById("inputText").value;
+    	insertionPoint.innerHTML = response;
+    }
+    }
+
+
+    function getDecrypt(callback){
+        var key = document.getElementById("deKey").value;
+        ver cipherText = document.getElementById("cipher").value;
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onReadyStateChange = function() {
+            if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", "http;//127.0.0.1:8080/decrypt?key=" + key + "&cipherText=" + cipherText, true)
+        xmlHttp.send(null);
+    }
+
+    function callDecrypt(callback){
+    getEncrypt(){
+    	var insertionPoint = document.getElementById("inputtext").value;
+    	insertionPoint.innerHTML = response;
+    }
+    }
+
+    function exampleCall(){
+        exampleXMLHTTP(function(response){
+            alert(response);
+        });
+    }
+</script>
+
+
+<script>
     function exampleXMLHTTP(callback){
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onReadyStateChange = function() {
@@ -46,4 +96,3 @@
         });
     }
 </script>
-<button onsubmit="exampleCall()">Submitsticles</button>
