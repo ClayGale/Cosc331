@@ -18,7 +18,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
-        if self.getPage() == '/example':
+        if self.getPage() == '/':
             html = open("encryptionBase.html")
             htmlString = html.read()
             html.close()

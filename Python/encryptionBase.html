@@ -2,7 +2,7 @@
 	<p id="inputText">_PLACEHOLDER_</p>
 </div>
 <div style="margin-left: 30%; margin-right: 30%; text-align: center; padding: 10px;">
-	<form id="encryptForm" onsubmit="callGetCrypt();return false;" action="">
+	<form id="encryptForm" onsubmit="callEnCrypt();return false;" action="">
 		<fieldset>
 			<legend>Encrypt a String:</legend>
 			<input type="text" style="width:100%; padding: 10px;" id="enkey" name="key" placeholder="My Very secure Key">
@@ -16,7 +16,7 @@
 	</form>
 </div>
 <div style="margin-left: 30%; margin-right: 30%; text-align: center; padding: 10px;">
-	<form id="decryptForm" onsubmit="callGetDecrypt();return false;" action="">
+	<form id="decryptForm" onsubmit="callDecrypt();return false;" action="">
 		<fieldset>
 			<legend>Decrypt a String:</legend>
 			<input type="text" style="width:100%; padding: 10px;" id="dekey" name="key" placeholder="My Very secure Key">
