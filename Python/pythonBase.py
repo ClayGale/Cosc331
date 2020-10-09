@@ -31,7 +31,7 @@ class MyServer(BaseHTTPRequestHandler):
 
         if self.getPage() == "/decrypt":
             params = self.getParams()
-            decryptedText = self.encode(params['key'], params['cipherText'])
+            decryptedText = self.decode(params['key'], params['cipherText'])
             self.wfile.write(bytes(decryptedText, "utf-8"))
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):

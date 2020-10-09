@@ -2,13 +2,13 @@
 	<p id="inputText">_PLACEHOLDER_</p>
 </div>
 <div style="margin-left: 30%; margin-right: 30%; text-align: center; padding: 10px;">
-	<form id="encryptForm" onsubmit="callEnCrypt();return false;" action="">
+	<form id="encryptForm" onsubmit="callEncrypt();return false;" action="">
 		<fieldset>
 			<legend>Encrypt a String:</legend>
 			<input type="text" style="width:100%; padding: 10px;" id="enkey" name="key" placeholder="My Very secure Key">
 			<br>
 			<br>
-			<input type="text" style="width:100%; padding: 10px;" id="plain" name="plaintext" placeholder="This is a secret message!">
+			<input type="text" style="width:100%; padding: 10px;" id="plain" name="plainText" placeholder="This is a secret message!">
 			<br>
 			<br>
 			<button type="submit" form="encryptForm" value="Submit">Submit</button>
@@ -22,7 +22,7 @@
 			<input type="text" style="width:100%; padding: 10px;" id="dekey" name="key" placeholder="My Very secure Key">
 			<br>
 			<br>
-			<input type="text" style="width:100%; padding: 10px;" id="cipher" name="ciphertext" placeholder="My encrypted message text">
+			<input type="text" style="width:100%; padding: 10px;" id="cipher" name="cipherText" placeholder="My encrypted message text">
 			<br>
 			<br>
 			<button type="submit" form="decryptForm" value="Submit">Submit</button>
@@ -32,22 +32,24 @@
 <script>
     function getEncrypt(callback){
         var key = document.getElementById("enKey").value;
-        ver plaintext = document.getElementById("plain").value;
-
+        ver plainText = document.getElementById("plain").value;
+		alert("test2")
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onReadyStateChange = function() {
+        xmlHttp.onReadyStateChange = function (){
             if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
                 callback(xmlHttp.responseText);
         }
-        xmlHttp.open("GET", "http;//127.0.0.1:8080/encrypt?key=" + key + "&plaintext=" + plaintext, true)
+        xmlHttp.open("GET", "http;//127.0.0.1:8080/encrypt?key=" + key + "&plainText=" + plainText, true)
         xmlHttp.send(null);
     }
 
     function callEncrypt(callback){
-    getEncrypt(){
-    	var insertionPoint = document.getElementById("inputText").value;
-    	insertionPoint.innerHTML = response;
-    }
+    	alert("test")
+    	getEncrypt(function(response){
+    		var insertionPoint = document.getElementById("inputText");
+    		alert("test")
+    		insertionPoint.innerHTML = response;
+    	});
     }
 
 
@@ -56,7 +58,7 @@
         ver cipherText = document.getElementById("cipher").value;
 
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onReadyStateChange = function() {
+        xmlHttp.onReadyStateChange = function (){
             if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
                 callback(xmlHttp.responseText);
         }
@@ -65,29 +67,10 @@
     }
 
     function callDecrypt(callback){
-    getEncrypt(){
-    	var insertionPoint = document.getElementById("inputtext").value;
-    	insertionPoint.innerHTML = response;
-    }
-    }
-
-    function exampleCall(){
-        exampleXMLHTTP(function(response){
-            alert(response);
-        });
-    }
-</script>
-
-
-<script>
-    function exampleXMLHTTP(callback){
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onReadyStateChange = function() {
-            if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                callback(xmlHttp.responseText);
-        }
-        xmlHttp.open("GET", "http://www.google.com", true)
-        xmlHttp.send(null);
+    	getdecrypt(function(response){
+    		var insertionPoint = document.getElementById("inputText");
+    		insertionPoint.innerHTML = response;
+    	});
     }
 
     function exampleCall(){
@@ -96,3 +79,4 @@
         });
     }
 </script>
+
