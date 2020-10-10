@@ -5,7 +5,7 @@ Created on Fri Sep 25 13:55:35 2020
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import time, sys, base64
+import time, sys, base64, json
 from urllib import parse
 
 hostName = "localhost"
@@ -13,6 +13,7 @@ serverPort = 8080
 
 
 class MyServer(BaseHTTPRequestHandler):
+    history = []
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
@@ -28,11 +29,16 @@ class MyServer(BaseHTTPRequestHandler):
             params = self.getParams()
             encryptedText = self.encode(params['key'], params['plainText'])
             self.wfile.write(encryptedText)
+            self.history.append(encryptedText.decode("utf-8"))
 
         if self.getPage() == "/decrypt":
             params = self.getParams()
             decryptedText = self.decode(params['key'], params['cipherText'])
             self.wfile.write(bytes(decryptedText, "utf-8"))
+
+        if self.getPage() == "/history":
+            json.dumps(self.history)
+            self.wfile.write(bytes(json.dumps(self.history), "utf-8"))
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):
         output = {}
