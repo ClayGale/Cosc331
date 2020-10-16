@@ -35,23 +35,90 @@ class MyServer(BaseHTTPRequestHandler):
     
     def do_GET(self):
         print("GET REQUEST")
-        # TO-DO: FETCH JSON OBJECT OR SPECIFIC VALUE
+        if self.getURI() in self.myDict.keys():
+            parameters = self.getParams()
+
+            if parameters.get('key'):
+                jsonObject = json.loads(self.myDict[self.getURI()])
+                value = jsonObject.get(parameters.get('key'))
+
+                if value:
+                    self.set_headers(200)
+                    self.wfile.write(bytes(json.dumps(value), "utf-8"))
+                else:
+                    self.set_headers(404)
+
+            else:
+                self.set_headers(200)
+                self.wfile.write(bytes(self.myDict[self.getURI()], "utf-8"))
+        else:
+            self.set_headers(404)
         
     def do_POST(self):
         print("POST REQUEST")
-        # TO-DO: CREATE JSON OBJECT
+        if self.getURI() not in self.myDict.keys():
+
+            try:
+                newObject = json.loads(str(self.getBody().decode("utf-8")))
+                if isinstance(newObject, dict):
+                    self.myDict[self.getURI()] = json.dumps(newObject)
+                    self.set_headers(201)
+                else:
+                    self.set_headers(400)
+            except JSONDecodeError:
+                self.set_headers(400)
+
+        else:
+            self.set_headers(409)
+
         
     def do_PUT(self):
         print("PUT REQUEST")
-        # TO-DO: OVERWRITE EXISTING JSON OBJECT
+        if self.getURI() in self.myDict.keys():
+
+            try:
+                newObject = json.loads(str(self.getBody().decode("utf-8")))
+                if isinstance(newObject, dict):
+                    self.myDict[self.getURI()] = json.dumps(newObject)
+                    self.set_headers(200)
+                else:
+                    self.set_headers(400)
+            except JSONDecodeError:
+                self.set_headers(400)
+
+        else:
+            self.set_headers(404)
         
     def do_DELETE(self):
         print("DELETE REQUEST")
-        # TO-DO: DELETE EXISTING JSON OBJECT
+        if self.getURI() in self.myDict.keys():
+            self.set_headers(200)
+            self.myDict.pop(self.getURI(), None)
+
+        else:
+            self.set_headers(404)
         
     def do_PATCH(self):
         print("PATCH REQUEST")
-        # TO-DO: SELECTIVELY OVERWRITE KEY-VALUE PAIRS OF A JSON OBJECT
+        if self.getURI() in self.myDict.keys():
+
+            try:
+                newObject = json.loads(str(self.getBody().decode("utf-8")))
+                if isinstance(newObject, dict):
+                    oldData = json.loads(self.myDict[self.getURI()])
+
+                    for key in newObject:
+                        oldData[key] = newObject[key]
+                    self.myDict[self.getURI()] = json.dumps(oldData)
+
+                    self.set_headers(200)
+                else:
+                    self.set_headers(400)
+            except JSONDecodeError:
+                self.set_headers(400)
+
+        else:
+            self.set_headers(404)
         
     # This is necessary, as OPTIONS is used to check if the service supports HTTP 1.1 verbs (PUT, PATCH, DELETE)    
     def do_OPTIONS(self):
@@ -77,4 +144,4 @@ class MyServer(BaseHTTPRequestHandler):
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
-    webServer.serve_forever()
+    webServer.serve_forever() 
