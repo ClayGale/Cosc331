@@ -19,10 +19,41 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
     
     def do_GET(self):
-        # TO-DO: Handle GET requests for our secure resource
+        if self.getPage() == '/':
+            parameters = self.getParams()
+            if parameters.get('token'):
+                clientIP = self.client_address[0]
+                fetchedIP = self.getToken(parameters.get('token'))
+                if clientIP == fetchedIP:
+                    self.set_headers(200)
+                    self.wfile.write(bytes("boo!","utf-8"))
+                else:
+                    self.set_headers(401)
+                    self.wfile.write(bytes("Bad token match","utf-8"))
+            else:
+                self.set_headers(401)
+                self.wfile.write(bytes("No token provided", "utf-8"))
+        else:
+            self.set_headers(404)
 
     def getToken(self, token):
-        # TO-DO: Fetches/caches a token for a set period of time, automatically re-fetches old tokens
+        if token == 'logout':
+            return None
+        if token not in self.tokens.keys():
+            try:
+                fetchedIP = urllib.request.urlopen("http://127.0.0.1:8080/" + token).read()
+                fetchedIP = fetchedIP.decode("utf-8")
+                self.tokens[token] = [fetchedIP, time.time()]
+            except:
+                return None
+            return fetchedIP
+        else:
+            tokenVals = self.tokens[token]
+            if (time.time() - tokenVals[1]) > 300:
+                del self.tokens[token]
+                return self.getToken(token)
+            else:
+                return tokenVals[0]
             
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):
