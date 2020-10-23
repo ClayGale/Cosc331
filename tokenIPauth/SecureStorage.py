@@ -26,7 +26,7 @@ class MyServer(BaseHTTPRequestHandler):
                 fetchedIP = self.getToken(parameters.get('token'))
                 if clientIP == fetchedIP:
                     self.set_headers(200)
-                    self.wfile.write(bytes("boo!","utf-8"))
+                    self.wfile.write(bytes("<img src='https://i.imgur.com/OK3ZC1n.jpg' alt='Heres an apple,'> " + " fritter","utf-8"))
                 else:
                     self.set_headers(401)
                     self.wfile.write(bytes("Bad token match","utf-8"))
