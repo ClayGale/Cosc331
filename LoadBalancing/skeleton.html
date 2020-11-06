@@ -11,8 +11,17 @@
 	window.addEventListener( "load", function() {
 		var myNumber = _NUM_;
 		var port = _PORT_;
-		// Here, we'll create an AJAX request to one of our services with
-		// the specified port number, and the number parameter in the query string
+		var xhtml = new XMLHttpRequest();
+
+		xhtml.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("content").innerHTML = this.responseText;
+				document.getElementById("content").append("this response came from port: " + port);
+
+			}
+		};
+		xhtml.open("GET", "http://127.0.0.1:" + port + "/?number=" + myNumber, true);
+		xhtml.send();
 	});
 </script>
 </body>

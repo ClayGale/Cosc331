@@ -9,11 +9,17 @@ ports = []
 class MyServer(BaseHTTPRequestHandler):    
         
     def do_GET(self):
-        # Here, we'll get the input 'number' parameter first from the GET request
-        # Then we'll open our skeleton HTML file and read it into a string
-        # We'll replace the _NUM_ value in the HTML with our input number parameter
-        # And we'll replace the _PORT_ with the first port in our ports list
-        # We'll rotate the list around (for round robin), and then we'll send our html
+        data = self.getParams()
+        myFile = open("skeleton.html", "r")
+        html = myFile.read()
+        myFile.close()
+
+        html = html.replace("_NUM_", data['number'])
+        html = html.replace("_PORT_", ports[0])
+        ports.append(ports.pop(0))
+
+        self.set_headers(200)
+        self.wfile.write(bytes(html, "utf-8"))
         
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):

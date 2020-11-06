@@ -8,10 +8,13 @@ serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):    
         
     def do_GET(self):
-        # Here, we'll fetch a 'number' parameter from the incoming GET request
-        # We'll print the incoming request number to the console
-        # Then, we'll perform an iterative calculation on it - summing all values less than or equal to the input
-        # We'll then return the number
+        data = self.getParams()
+        print("Received request: " + data['number'])
+        output = 0
+        for x in range(int(data['number'])+1):
+            output += x
+        self.set_headers(200)
+        self.wfile.write(bytes("<h1>Triangular Number: " + str(output) + "</h1>", "utf-8"))
         
     # Gets the query parameters of a request and returns them as a dictionary
     def getParams(self):
